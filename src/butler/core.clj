@@ -1,21 +1,13 @@
 (ns butler.core
+  (:require [butler.commands.status :as status])
+  (:require [butler.commands.missing :as missing])
   (:gen-class))
 
 (def routing
-  {:status status
+  {:status status/run
    :version (fn [] 0)
    :build (fn [] 0)
    :deploy (fn [] 0)})
-
-
-(defn missing-subcommand
-  [args]
-  "Prints the usage message"
-  (println
-    "TODO")
-  1
-  )
-
 
 (defn run
   "Executes a subcommand. The subcommand has to return the exit code ? "
@@ -24,7 +16,7 @@
     (get
       routing
       (keyword (str subcommand))
-      missing-subcommand)
+      missing/run)
 
     args
     ))
