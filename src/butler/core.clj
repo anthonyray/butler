@@ -1,13 +1,16 @@
 (ns butler.core
-  (:require [butler.commands.status :as status])
   (:require [butler.commands.missing :as missing])
+  (:require [butler.commands.status :as status])
+  (:require [butler.commands.version :as version])
+  (:require [butler.commands.build :as build])
+  (:require [butler.commands.deploy :as deploy])
   (:gen-class))
 
 (def routing
   {:status status/run
-   :version (fn [] 0)
-   :build (fn [] 0)
-   :deploy (fn [] 0)})
+   :version version/run
+   :build build/run
+   :deploy deploy/run
 
 (defn run
   "Executes a subcommand. The subcommand has to return the exit code ? "

@@ -1,7 +1,7 @@
 (ns butler.commands.missing)
 
 (defn run
-  [args]
+  [& args]
   "Prints the usage message"
   (println
     "Missing command invoked")

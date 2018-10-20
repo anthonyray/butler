@@ -1,6 +1,6 @@
 (ns butler.commands.status)
 
 (defn run
-  [args]
+  [& args]
   (println "Status command is invoked")
   0)
