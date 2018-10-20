@@ -11,6 +11,7 @@
    :version version/run
    :build build/run
    :deploy deploy/run
+   })
 
 (defn run
   "Executes a subcommand. The subcommand has to return the exit code ? "
