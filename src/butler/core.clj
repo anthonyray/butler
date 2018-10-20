@@ -1,12 +1,6 @@
 (ns butler.core
   (:gen-class))
 
-(defn status
-  [args]
-  (println " * Status command will be invoked")
-  (println " * 🎩 Done !")
-  0)
-
 (def routing
   {:status status
    :version (fn [] 0)
