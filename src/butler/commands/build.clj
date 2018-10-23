@@ -1,6 +1,7 @@
 (ns butler.commands.build
   (:require [selmer.parser :as templating])
-  (:require [markdown.core :as markdown-parser]))
+  (:require [markdown.core :as markdown-parser])
+  (:require [selmer.util :refer [without-escaping]]))
 
 (def articles-path "./articles")
 (def template-path "./templates/article.html")
@@ -8,6 +9,18 @@
 (defn read-template
   []
   (slurp (clojure.java.io/file template-path)))
+
+(defn is-markdown-file?
+  [file]
+  (and (.isFile file) (= (second (clojure.string/split (.getName file) #"\.")) "md")))
+
+(defn read-article-files
+  "Filters articles which extension is .md"
+  []
+  (filter
+    is-markdown-file?
+    (file-seq (clojure.java.io/file articles-path))
+    ))
 
 (defn extract-article-from-file
   "Extract article data structure from article file"
@@ -18,10 +31,17 @@
    :raw-text (slurp article-file)
    })
 
+(defn style-headings                                        ;; Move this function to a central place where styling is decided.
+  [text state]
+  [(clojure.string/replace text #"<h[1-5]" #(str %1 " class=\"mt-5\">")) state]
+  )
+
 (defn enrich-article-from-markdown
   "Enriches the article data structure with data extracted from markdown"
   [article]
-  (let [markdown-article (markdown-parser/md-to-html-string-with-meta (:raw-text article))]
+  (let [markdown-article (markdown-parser/md-to-html-string-with-meta
+                           (clojure.string/replace (:raw-text article) #"#" "##")
+                           :custom-transformers [style-headings])] ;; We customize the behaviour of our parser
     (assoc article
       :title (first (get-in markdown-article [:metadata :title]))
       :last-update-date (first (get-in markdown-article [:metadata :last-update-date]))
@@ -35,25 +55,37 @@
   [article]
   (assoc
     article
-    :html (templating/render
-            (read-template)
-            article))
+    :html (without-escaping (templating/render
+                              (read-template)
+                              article)))
   )
 
-(defn write-article                                         ;; Side effect happens here.
+(defn generate-report
+  [articles]
+  (let [number-of-generated-articles (count articles)
+        number-of-ignored-articles 0]
+    (str
+      "* Reading the content of folder: " articles-path "\n"
+      "* Found " number-of-generated-articles " entrie(s) : \n"
+      (reduce (fn [acc s] (str acc "*\t- " s "\n")) "" (map #(:name %) articles))
+      "* Generated " number-of-generated-articles " html pages using template: " template-path "\n"
+      "* Using stylesheet : ./styles/main.css\n"
+      "* Ignored " number-of-ignored-articles " entries\n"
+      "* 🎩 Done !"
+      )
+    )
+  )
+
+
+;; Side effect functions
+(defn write-article
   [article]
-  (println (str  "WRITING :" (:name article) ".html"))
   (spit (str (:name article) ".html") (:html article))
   article
   )
 
-(defn list-files
-  "Filters articles which extension is .md"
-  []
-  (filter
-    #(.isFile %)
-    (file-seq (clojure.java.io/file articles-path))
-    ))
+
+;; TODO : Error handling!
 
 (defn run
   [& args]
@@ -62,8 +94,11 @@
                        render-article
                        enrich-article-from-markdown
                        extract-article-from-file) %)
-                   (list-files))]
+                   (read-article-files))]
     (doseq [article articles]
       (write-article article))
+    (println (generate-report articles))
     0)                           ;; where the side effect happens.
   )
+
+
