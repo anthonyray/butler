@@ -3,7 +3,7 @@ A toy static website generator from scratch, written in Clojure.
 
 ## Introduction
 
-`butler` is a CLI that helps me generate pages for my personal website. 
+`butler` is a CLI that helps me generate pages for my personal [website](https://anthonyray.github.io/). 
 
 The goal of `butler` is to generate web pages from markdown source files. 
 
