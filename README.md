@@ -5,7 +5,9 @@ A toy static website generator from scratch, written in Clojure.
 
 `butler` is a CLI that helps me generate pages for my personal [website](https://anthonyray.github.io/). 
 
-The goal of `butler` is to generate web pages from markdown source files. 
+The goal of `butler` is to generate web pages from markdown source files.
+
+It's also a toy project that I'll use to learn Clojure !
 
 ## API
 
@@ -13,10 +15,10 @@ The goal of `butler` is to generate web pages from markdown source files.
     Butler is a tool to generate pages for my personal website.
     
     Several tasks are available:
-    build              Rewrite project.clj by applying a function.
-    status               Check syntax and warn on reflection.
-    version           Print the classpath of the current project.
-    deploy               Remove all files from project's target-path.
+    build             Reads the article sources and renders them to HTML
+    status            Retrieve latest updates for the website.
+    version           Returns the version of butler
+    deploy            Deploys generated HTML file to Github pages
 
 ### Subcommands
 
