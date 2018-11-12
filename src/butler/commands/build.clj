@@ -5,6 +5,7 @@
 
 (def articles-path "./articles")
 (def template-path "./templates/article.html")
+(def output-path "./articles/")
 
 (defn read-template
   []
@@ -87,7 +88,7 @@
 ;; Side effect functions
 (defn write-article
   [article]
-  (spit (str (:name article) ".html") (:html article))
+  (spit (str output-path (:name article) ".html") (:html article))
   article
   )
 
