@@ -9,6 +9,37 @@ The goal of `butler` is to generate web pages from markdown source files.
 
 It's also a toy project that I'll use to learn Clojure !
 
+## Installation
+
+Butler can be built and used on your machine if you have leiningen installed. 
+
+### In brief 
+
+Run the following commands :
+```
+./install.sh
+./deploy.sh
+```
+
+And you're good to go ! 
+### Details
+What happens behind the scenes : 
+The install script runs the following command : 
+```
+lein uberjar
+```
+This will generate a standalone jar for butler. 
+
+
+The `deploy` script will then create an executable from the standalone jar. 
+```
+cat stub.sh target/uberjar/butler-0.1.0-SNAPSHOT-standalone.jar > butler && chmod +x butler
+```
+This will generate an executable that you can add to your PATH. 
+
+I decided to create a deploy script that will copy this executable to `~/Applications/butler/` so that it's in my path. 
+
+
 ## API
 
     $ butler 
