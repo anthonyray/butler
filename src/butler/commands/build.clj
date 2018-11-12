@@ -10,9 +10,11 @@
   []
   (slurp (clojure.java.io/file template-path)))
 
+
 (defn is-markdown-file?
   [file]
   (and (.isFile file) (= (second (clojure.string/split (.getName file) #"\.")) "md")))
+
 
 (defn read-article-files
   "Filters articles which extension is .md"
@@ -21,6 +23,7 @@
     is-markdown-file?
     (file-seq (clojure.java.io/file articles-path))
     ))
+
 
 (defn extract-article-from-file
   "Extract article data structure from article file"
@@ -31,10 +34,12 @@
    :raw-text (slurp article-file)
    })
 
-(defn style-headings                                        ;; Move this function to a central place where styling is decided.
+
+(defn style-headings                                        ;; TODO: Move this function to a central place where styling is decided.
   [text state]
-  [(clojure.string/replace text #"<h[1-5]" #(str %1 " class=\"mt-5\"")) state]
+  [(clojure.string/replace text #"<h[1-5]" #(str %1 " class=\"mt-5\"")) state] ;; TODO : the class doesn't reflect the hierarchy of the headings.
   )
+
 
 (defn enrich-article-from-markdown
   "Enriches the article data structure with data extracted from markdown"
@@ -60,6 +65,7 @@
                               (read-template)
                               article)))
   )
+
 
 (defn generate-report
   [articles]
@@ -99,7 +105,5 @@
     (doseq [article articles]
       (write-article article))   ;; where the side effect happens.
     (println (generate-report articles))
-    0)
+    0)                                                      ;; Return code
   )
-
-
