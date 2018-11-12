@@ -33,7 +33,7 @@
 
 (defn style-headings                                        ;; Move this function to a central place where styling is decided.
   [text state]
-  [(clojure.string/replace text #"<h[1-5]" #(str %1 " class=\"mt-5\">")) state]
+  [(clojure.string/replace text #"<h[1-5]" #(str %1 " class=\"mt-5\"")) state]
   )
 
 (defn enrich-article-from-markdown
@@ -49,6 +49,7 @@
       :html-content (get markdown-article :html))                   ;; TODO : heading classes won't be correct ...
     )
   )
+
 
 (defn render-article
   "Given a article datastructure, returns the HTML rendered article."
@@ -94,11 +95,11 @@
                        render-article
                        enrich-article-from-markdown
                        extract-article-from-file) %)
-                   (read-article-files))]
+                   (read-article-files))]  ;; where the side effect happens.
     (doseq [article articles]
-      (write-article article))
+      (write-article article))   ;; where the side effect happens.
     (println (generate-report articles))
-    0)                           ;; where the side effect happens.
+    0)
   )
 
 
