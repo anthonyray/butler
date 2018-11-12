@@ -69,8 +69,17 @@ Butler has the following functionality :
 - [ ]  Reads a configuration file
 
 ## Usage
+### Generating articles
 
-FIXME: explanation
+The root has to follow this structure :
+```
+- articles
+|--- article1.md
+|--- article2.md
 
-    $ java -jar butler-0.1.0-standalone.jar [args]
+- templates
+|--- article.html
+```
+
+
 
