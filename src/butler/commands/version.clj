@@ -2,7 +2,6 @@
 
 (defn run
   [& args]
-  (println
-    (System/getProperty "butler.version"))
+  (println "0.1.0-SNAPSHOT")
   0)
 
