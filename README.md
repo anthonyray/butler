@@ -9,6 +9,13 @@ The goal of `butler` is to generate web pages from markdown source files.
 
 It's also a toy project that I'll use to learn Clojure !
 
+## Status
+
+- ✅ `version` : works, but it's hacky  
+- ✅ `build` : works, still need to parametrize output folder
+- ❌ `deploy` : dropped for now, as I want to do it manually
+- ✅ `status` : needs cosmetics
+
 ## Installation
 
 Butler can be built and used on your machine if you have leiningen installed. 
