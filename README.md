@@ -24,8 +24,8 @@ Butler can be built and used on your machine if you have leiningen installed.
 
 Run the following commands :
 ```
-./install.sh
-./deploy.sh
+.scripts/install.sh
+.scripts/deploy.sh
 ```
 
 And you're good to go ! 
